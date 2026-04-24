@@ -1,0 +1,1011 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mother's Day Quiz</title>
+
+    <!-- CONFETTI LIBRARY -->
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+
+    @media(max-width:600px){
+  .name-input{
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px;
+    padding: 14px;
+  }
+}
+        
+    .name-input{
+  padding: 12px;
+  width: 100%;
+  max-width: 320px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+        
+    @media(max-width:600px){
+   .banner{
+    max-height:400px;
+      }
+    }
+
+        .option{
+      transition: all 0.3s ease;
+    }
+
+        .question-selected{
+      color:#f47181;   /* bright pink */
+    }
+
+        .option:active{
+      background:#ffd6e8;   /* pale pastel pink */
+    }
+
+        .progressWrapper{
+      position: relative;
+      width: 80%;
+      margin: 20px auto;
+    }
+
+
+    /* ICON ON BAR */
+
+    .progressIcon{
+      position: absolute;
+      top: -18px;              
+      left: 0%;               
+      width: 35px;
+      height: 35px;
+      transform: translateX(-50%);
+      transition: 0.4s;
+    }
+
+        .progressBar{
+         position: relative;
+    } 
+
+        @media (max-width: 600px) {
+        html, body {
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        position: fixed;
+        width: 100%;
+      }
+    }
+    /** Phone POV **/
+
+     @media (max-width: 600px){
+
+    .quiz-page{
+      width: 100%;
+      margin: 0;
+      border-radius: 0;
+      min-height: 100vh;
+    }
+
+    .quiz-container{
+      width: 100%;
+      max-width: 100%;
+      border-radius: 0;
+      padding: 20px;
+    }
+
+    }
+
+    .corner-flowers {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* TOP LEFT and BOTTOM RIGHT flowers*/
+
+    .corner-flowers::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 300px;
+      background: url("images/top left flower.png") no-repeat;
+      background-size: contain;
+      background-position: top left;
+
+      transform: translate(-50px, -50px);
+    }
+
+    .corner-flowers::after {
+      content: "";
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 300px;
+      height: 300px;
+      background: url("images/bottom right.png") no-repeat;
+      background-size: contain;
+      background-position: bottom right;
+
+      transform: translate(50px, 50px);
+    }
+
+        /** Logo Size **/
+
+        .banner{
+        width:100%;
+        max-height:300px;
+        object-fit:contain;
+        margin-bottom:-10px;
+        }
+
+        /** Font Wording **/
+
+        body{
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 500;
+        margin: 0;
+        background: #FFF5E1; /* cream color */
+        }
+
+        html, body{
+          overflow-x:hidden;
+        }
+
+        @media(max-width:600px){
+
+        .quiz-header{
+          padding:15px 10px;
+        }
+
+        .quiz-title{
+          font-size:20px;
+        }
+
+        .subtitle{
+          font-size:20px;
+        }
+
+        .question{
+          font-size:18px;
+          margin:20px 10px;
+        }
+
+        .options{
+          width:90%;
+        }
+
+        }
+
+        @media(max-width:600px){
+          .home-logo{
+            width:55px;
+            top:15px;
+            left:15px;
+          }
+        }
+
+
+        /** Logo Animation Homepage **/
+
+        .spin {
+          animation: spin 0.6s ease-in-out;
+        }
+
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        body.fade-out {
+          opacity: 0;
+          transition: opacity 0.5s ease;
+        }
+
+        /** Logo Homepage **/
+
+        .home-logo{
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          width: 80px;   /* adjust size */
+          height: auto;
+          z-index: 10;
+        }
+
+        /** Text Colour **/
+
+        .homepage .quiz-container h1,
+        .homepage .quiz-container p {
+          background: linear-gradient(90deg, #ff4d8d 50%, #9e0f56 50%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        /* FLOWER BACKGROUND */
+
+        .flowers {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        /* each flower */
+
+        .flower {
+          position: absolute;
+          bottom: -50px;
+          width: 30px;
+          opacity: 0.6;
+          animation: floatUp linear infinite;
+        }
+
+        /* animation going up */
+
+        @keyframes floatUp {
+          from {
+            transform: translateY(0);
+            opacity: 0.5;
+          }
+          to {
+            transform: translateY(-120vh);
+            opacity: 0;
+          }
+        }
+
+       body > *:not(.flowers):not(.corner-flowers) {
+      position: relative;
+      z-index: 1;
+    }
+
+        /** Logo **/
+
+        .heart-img {
+        width: 50px;
+        height: 50px;
+        animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+        }    
+
+        .question, .option {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+        to {
+        opacity: 1;
+        transform: translateY(0);
+        }
+        }    
+
+        .start-btn{
+        background:#ff4d8d;   /* pink */
+        color:white;
+        border:none;
+        padding:14px 30px;
+        border-radius:10px;
+        font-size:18px;
+        cursor:pointer;
+        margin-top:30px;
+        transition:0.3s;
+        }
+
+        .start-btn:hover{
+        background:#e63e7a;   /* dark pink when hover */
+        transform:scale(1.05);
+        }    
+
+        /* HOMEPAGE */
+
+        .homepage{
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          min-height:100vh;
+          padding:20px;
+          box-sizing:border-box;
+        } 
+
+         .quiz-container{
+          background:#FFF5E1;
+          width:95%;
+          max-width:420px;
+          padding:40px;
+          border-radius:16px;
+          box-shadow:0 15px 35px rgba(0,0,0,0.2);
+          text-align:center;
+          position:relative;
+        }
+
+        body::before,
+        body::after {
+          content:"";
+          position:fixed;
+          width:300px;   /* adjust size */
+          height:300px;
+          background-size:contain;
+          background-repeat:no-repeat;
+          z-index:0;
+          pointer-events:none;
+        } 
+
+        /* QUIZ PAGE */
+
+        .quiz-page{
+        width:95%;
+        max-width:500px;
+        margin:30px auto;
+        background:#FFF5E1;
+        border-radius:12px;
+        padding-bottom:40px;
+        color:#9e0f56;
+        box-shadow:0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .quiz-header{
+        position:relative;
+        display:flex;
+        align-items:center;
+        padding:20px 40px;
+        }
+
+        /* LEFT (image) */
+
+        .heart{
+        position:absolute;
+        left:40px;
+        }
+
+        /* PERFECT CENTER TITLE */
+
+        .quiz-title{
+        margin:auto;
+        font-size:36px;
+        font-weight:bold;
+        text-align:center;
+        }
+
+        .quiz-title{
+        font-size:36px;
+        font-weight:bold;
+        }
+
+        .heart {
+            display: flex;
+            align-items: center;
+        }
+
+        .heart-img {
+            width: 50px;   
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .subtitle{
+        text-align:center;
+        font-size:32px;
+        margin-top:20px;
+        }
+
+        .question{
+        text-align:center;
+        font-size:24px;
+        margin:40px 0;
+        }
+
+        /* PROGRESS BAR */
+
+        .progressBar{
+        width:100%;
+        height:10px;
+        background:#f4c1d7;
+        margin:10px auto;
+        border-radius:10px;
+        overflow:hidden;
+        }
+
+        .progressFill{
+        height:100%;
+        width:0%;
+        background:#ff4d8d;  /* pink fill */
+        transition:0.4s;
+        }
+
+        .progress{
+        text-align:center;
+        margin-top:10px;
+        font-size:16px;
+        }
+
+        .options{
+        width:40%;
+        margin:auto;
+        display:flex;
+        flex-direction:column;
+        gap:15px;
+        }
+
+        .option{
+        border:2px solid #f4c1d7;
+        padding:18px 20px;
+        border-radius:6px;
+        cursor:pointer;
+        font-size:18px;
+        transition:0.3s;
+        line-height:1.5;
+        text-align:left;
+        }
+
+        @media (hover: hover) {
+        .option:hover{
+        background:#c41b6d;
+         }
+        }
+
+        .selected{
+        background:#ff4d8d;   /* bright pink */
+        color:white;
+        border-color:#ff4d8d;   /* bright pink */
+        }
+
+        button{
+        margin-top:30px;
+        padding:12px 25px;
+        border:none;
+        background:#ff4d8d;
+        color:#FFFFFF;
+        border-radius:8px;
+        font-size:16px;
+        cursor:pointer;
+        }
+
+        button:hover{
+        background:#ffd6e8;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:600px){
+
+        .quiz-title{
+        font-size:24px;
+        }
+
+        .subtitle{
+        font-size:22px;
+        }
+
+        .question{
+        font-size:20px;
+        margin:30px 10px;
+        }
+
+        .options{
+        width:80%;
+        }
+
+        .option{
+        font-size:16px;
+        }
+
+        }
+
+        </style>
+        </head>
+
+        <body>
+
+        
+            
+        <div class="corner-flowers"></div>
+
+        <div class="flowers"></div>
+
+        <!-- HOMEPAGE -->
+
+        <!-- LOGIN PAGE -->
+<div id="loginPage" class="homepage">
+
+  <div class="quiz-container">
+
+    <h1>Welcome 💗</h1>
+    <p>Please enter your name to start the quiz</p>
+
+    <input type="text" id="username" placeholder="Enter your name"
+      style="padding:10px; width:80%; border-radius:8px; border:1px solid #ccc; margin-top:10px;">
+
+    <br>
+
+    <button class="start-btn" onclick="enterQuiz()">Continue</button>
+
+  </div>
+
+</div>
+            
+        <div id="home" class="homepage" style="display:none;">
+
+        <div class="quiz-container">
+
+        <img src="images/Mothers%20day%20board.png" class="banner">
+
+        <h1>Mother's Day Quiz 💗</h1>
+
+        <p>Test your knowledge about Mother's Day and see how much you know!</p>
+
+        <p>Good luck, have fun, and Happy Mother’s Day! 💐</p>
+
+        <p>Let the Mother’s Day magic begin!</p>
+
+        <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+
+        </div>
+        </div>
+
+        <!-- QUIZ PAGE -->
+
+        <div id="quiz" class="quiz-page" style="display:none;">
+
+        <div class="quiz-header">
+
+        <div class="quiz-title">Mother's Day Quiz 💝</div>
+
+        </div>
+
+        <hr>
+
+        <div class="subtitle">Mother’s Day Trivia Challenge</div>
+
+        <div class="progress" id="progress"></div>
+
+        <div class="progressWrapper">
+           <div class="progressBar">
+              <div class="progressFill" id="bar"></div>
+        </div>
+
+        <img src="images/heart%20gif.gif" id="progIcon" class="progressIcon">
+        </div>
+
+        <div class="question" id="question"></div>
+
+        <div class="options">
+        <div class="option" onclick="selectOption(this,0)" id="opt0"></div>
+        <div class="option" onclick="selectOption(this,1)" id="opt1"></div>
+        <div class="option" onclick="selectOption(this,2)" id="opt2"></div>
+        <div class="option" onclick="selectOption(this,3)" id="opt3"></div>
+        </div>
+
+        <div style="text-align:center;">
+        <button onclick="nextQuestion()">Next</button>
+        </div>
+
+        </div>
+
+        <script>
+           
+        function displayLeaderboard(data){
+
+    let leaderboardHTML = `
+    <div style="margin-top:40px;">
+        <h2 style="color:#ff4d8d;">🏆 Leaderboard</h2>
+        <div style="
+            background:#fff;
+            padding:20px;
+            border-radius:12px;
+            margin-top:15px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.1);
+        ">
+    `;
+
+    data.forEach((player, index) => {
+
+        let medal = "";
+        if(index === 0) medal = "🥇";
+        else if(index === 1) medal = "🥈";
+        else if(index === 2) medal = "🥉";
+
+        let highlight = "";
+        if(player.name === localStorage.getItem("username")){
+            highlight = "color:#ff4d8d; font-weight:bold;";
+        }
+
+        leaderboardHTML += `
+            <p style="font-size:18px; ${highlight}">
+                ${medal} ${index + 1}. ${player.name} — ${player.score}%
+            </p>
+        `;
+    });
+
+    leaderboardHTML += `</div></div>`;
+
+    document.getElementById("quiz").innerHTML += leaderboardHTML;
+}
+            
+            let savedName = localStorage.getItem("username");
+
+if(savedName){
+  document.getElementById("loginPage").style.display = "none";
+  document.getElementById("home").style.display = "flex";
+}
+            
+function enterQuiz(){
+
+  let name = document.getElementById("username").value.trim();
+
+  if(name === ""){
+    alert("Please enter your name!");
+    return;
+  }
+
+  // FORCE SAVE
+  localStorage.setItem("username", name);
+
+  console.log("Saved name:", name); // DEBUG
+
+  document.getElementById("loginPage").style.display = "none";
+  document.getElementById("home").style.display = "flex";
+}
+            
+        function fadeReload(){
+          const logo = document.querySelector(".home-logo");
+
+          logo.classList.add("spin");
+
+          setTimeout(() => {
+            location.reload();
+          }, 600); // match spin duration
+        }
+
+        function createFlowers() {
+          const container = document.querySelector(".flowers");
+
+        if (!container) return; // safety check
+
+        const images = [
+            "images/flower1.png",
+            "images/flower2.png",
+            "images/flower3.png"
+        ];
+
+        for (let i = 0; i < 25; i++) {
+        let img = document.createElement("img");
+
+            img.src = images[Math.floor(Math.random() * images.length)];
+            img.classList.add("flower");
+
+            img.style.left = Math.random() * 100 + "vw";
+            img.style.animationDuration = (Math.random() * 6 + 4) + "s";
+            img.style.animationDelay = Math.random() * 5 + "s";
+            img.style.width = (20 + Math.random() * 50) + "px";
+
+            container.appendChild(img);
+          }
+        }
+
+        window.onload = function () {
+
+        createFlowers();
+
+        if(localStorage.getItem("quizDone") === "true"){
+
+        let percent = localStorage.getItem("quizScore");
+
+        let gradeText="";
+        let emoji="";
+
+        if(percent>=80){
+            gradeText="Amazing Butterfly: You know it all!";
+            emoji="🦋";
+        }else if(percent>=50){
+            gradeText="Growing Flower: You're doing great!";
+            emoji="🌸";
+        }else{
+            gradeText="Curious Caterpillar: You’re just getting started!";
+            emoji="🐛";
+        }
+
+        document.getElementById("home").style.display="none";
+        document.getElementById("quiz").style.display="block";
+
+document.getElementById("quiz").innerHTML =
+"<div style='background:#FFF5E1;color:#9e0f56;border-radius:12px;padding:50px;text-align:center;'>" +
+
+"<h1 style='font-size:36px;margin-bottom:40px;'>Results for Mother's Day Quiz</h1>" +
+
+"<h2 style='margin:20px 0;'>Score &nbsp; " + percent + "%</h2>" +
+
+"<h2 style='margin:20px 0;'>Grade &nbsp; " + emoji + " " + gradeText + "</h2>" +
+
+"<br><br><button onclick='restartQuiz()'>Restart Quiz</button>" +
+
+"<p style='margin-top:20px;'>You already completed this quiz 💗</p>" +
+
+"</div>";
+           }
+        };
+
+        function showResults(){
+
+    let percent = Math.round((score/quiz.length)*100);
+    let name = localStorage.getItem("username");
+
+    localStorage.setItem("quizDone", "true");
+    localStorage.setItem("quizScore", percent);
+
+    let gradeText="";
+    let emoji="";
+
+    if(percent>=80){
+        gradeText="Amazing Butterfly: You know it all!";
+        emoji="🦋";
+    }else if(percent>=50){
+        gradeText="Growing Flower: You're doing great!";
+        emoji="🌸";
+    }else{
+        gradeText="Curious Caterpillar: You’re just getting started!";
+        emoji="🐛";
+    }
+
+    // show result
+    document.getElementById("quiz").innerHTML =
+    "<div style='background:#FFF5E1;color:#9e0f56;border-radius:12px;padding:50px;text-align:center;'>" +
+
+    "<h1 style='font-size:36px;margin-bottom:40px;'>Results for Mother's Day Quiz</h1>" +
+
+    "<h2 style='margin:20px 0;'>Score &nbsp; " + percent + "%</h2>" +
+
+    "<h2 style='margin:20px 0;'>Grade &nbsp; " + emoji + " " + gradeText + "</h2>" +
+
+    "<br><br><button onclick='restartQuiz()'>Restart Quiz</button>" +
+
+    "</div>";
+
+    // ✅ LOCAL leaderboard
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    leaderboard.push({
+        name: name,
+        score: percent
+    });
+
+    leaderboard.sort((a, b) => b.score - a.score);
+    leaderboard = leaderboard.slice(0, 10);
+
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+    displayLeaderboard(leaderboard);
+
+    launchConfetti();
+}
+
+        /* GO HOME */
+        function goHome(){
+
+        document.getElementById("quiz").style.display="none";
+        document.getElementById("home").style.display="flex";
+
+        /* reset quiz */
+        current=0;
+        score=0;
+
+        }    
+
+        /** Questions **/    
+        
+        const quiz=[
+        {
+        question:"Where did Mother's Day originate?",
+        options:["USA","Norway","France","Canada"],
+        answer:0
+        },
+        {
+        question:"Who helped start Mother's Day?",
+        options:["Anna Jarvis","Marie Curie","Florence Nightingale","Queen Victoria"],
+        answer:0
+        },
+        {
+        question:"Which flower is commonly given on Mother's Day?",
+        options:["Rose","Carnation","Tulip","Sunflower"],
+        answer:1
+        },
+        {
+        question:"Which day is Mother's Day celebrated in the US?",
+        options:["First Sunday May","Second Sunday May","Third Sunday May","Fourth Sunday May"],
+        answer:1
+        },
+        {
+        question:"When is Mother's Day celebrated in Malaysia?",
+        options:["First Sunday May","Second Sunday May","Third Sunday May","Fourth Sunday May"],
+        answer:1
+        },
+        {
+        question:"What is a popular Mother's Day gift?",
+        options:["Flowers","Books","Shoes","Laptop"],
+        answer:0
+        },
+        {
+        question:"What do children usually say to their moms on Mother's Day?",
+        options:["Good luck","Happy Mother's Day","Good night","See you"],
+        answer:1
+        },
+        {
+question:"What is the traditional symbol of Mother's Day?",
+options:["Ribbon","Carnation","Heart","Star"],
+answer:1
+},
+{
+question:"Which country first officially celebrated Mother's Day?",
+options:["USA","UK","Greece","China"],
+answer:0
+},
+{
+question:"What is Mother's Day mainly about?",
+options:["Celebrating teachers","Honouring mothers","National holidays","Sports events"],
+answer:1
+}
+        ];
+
+        let current=0;
+        let score=0;
+        let selected=-1;
+
+        /* START QUIZ */
+
+        function startQuiz(){
+
+        document.getElementById("home").style.display="none";
+        document.getElementById("quiz").style.display="block";
+
+        loadQuestion();
+
+        }
+
+        /* LOAD QUESTION */
+        function loadQuestion(){
+
+        // RESET COLORS EVERY QUESTION (IMPORTANT FIX)
+        for(let i=0;i<4;i++){
+           document.getElementById("opt"+i).style.background="";
+           }
+
+        document.getElementById("question").innerText=quiz[current].question;
+
+        document.getElementById("progress").innerText=
+        "Question "+(current+1)+" / "+quiz.length;
+
+        let percent = (current / quiz.length) * 100;
+
+        document.getElementById("bar").style.width = percent + "%";
+
+        let icon = document.getElementById("progIcon");
+        icon.style.left = percent + "%";
+
+        for(let i=0;i<4;i++){
+
+        let option = document.getElementById("opt"+i);
+
+        option.innerText = quiz[current].options[i];
+        option.classList.remove("selected");
+
+        }
+
+        selected=-1;
+
+        }
+
+        /* SELECT OPTION */
+
+        function selectOption(element,index){
+
+        let options=document.querySelectorAll(".option");
+        options.forEach(opt=>opt.classList.remove("selected"));
+
+        element.classList.add("selected");
+        selected=index;
+
+        // 👉 MAKE QUESTION TURN PINK
+        document.getElementById("question").classList.add("question-selected");
+        }
+
+        function nextQuestion(){
+
+        if(selected==-1){
+        alert("Please select an answer first!");
+        return;
+        }
+
+        if(selected==quiz[current].answer){
+        score++;
+        document.getElementById("opt"+selected).style.background="#4CAF50";
+        }else{
+        document.getElementById("opt"+selected).style.background="#e74c3c";
+        document.getElementById("opt"+quiz[current].answer).style.background="#4CAF50";
+        }
+
+        setTimeout(()=>{
+
+        current++;
+
+        if(current >= quiz.length){
+        showResults();
+        return;
+        }
+
+        document.getElementById("question").classList.remove("question-selected");
+
+        loadQuestion();
+
+        },1000);
+
+        }
+
+        /* RESTART */
+
+function restartQuiz(){
+  localStorage.removeItem("quizDone");
+  localStorage.removeItem("quizScore");
+  location.reload();
+}
+
+        /* CONFETTI */
+
+        function launchConfetti(){
+
+        var duration=3*1000;
+        var end=Date.now()+duration;
+
+        (function frame(){
+
+        confetti({
+        particleCount:5,
+        angle:60,
+        spread:55,
+        origin:{x:0}
+        });
+
+        confetti({
+        particleCount:5,
+        angle:120,
+        spread:55,
+        origin:{x:1}
+        });
+
+        if(Date.now()<end){
+        requestAnimationFrame(frame);
+        }
+
+        }());
+
+        }
+
+        </script>
+
+        </body>
+        </html>
